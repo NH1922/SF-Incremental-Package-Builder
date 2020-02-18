@@ -7,9 +7,9 @@ import PySimpleGUI as sg
 
 
 # method to print the diff
-def get_diff_files(dcmp):
+def print_diff_files(dcmp,coms):
     for name in dcmp.diff_files:
-        print("diff_file %s found in %s and %s" % (name, dcmp.left,
+        coms.append("diff_file %s found in %s and %s" % (name, dcmp.left,
                                                    dcmp.right))
     for sub_dcmp in dcmp.subdirs.values():
         print_diff_files(sub_dcmp)
@@ -25,4 +25,6 @@ if __name__ == '__main__':
     event, values = window.read()
     window.close()
     dcmp = dircmp(values[0], values[1])
-    print_diff_files(dcmp)
+    coms = []
+    print_diff_files(dcmp.coms)
+    print(coms)
