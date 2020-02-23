@@ -163,6 +163,14 @@
     "ChildObjects": null
   },
   {
+    "XMLName": "CleanDataService",
+    "DirName": "cleanDataServices",
+    "Suffix": "cleanDataService",
+    "HasMetaFile": false,
+    "InFolder": false,
+    "ChildObjects": null
+  },
+  {
     "XMLName": "ExternalServiceRegistration",
     "DirName": "externalServiceRegistrations",
     "Suffix": "externalServiceRegistration",
