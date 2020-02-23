@@ -43,7 +43,7 @@ def create_xml_elements_in_directory(local,directory,metadata_type):
     # print('Folders within folder {} are {} '.format(directory,all_folders))
     
     if all_folders:
-        if get_metadata(directory)['InFolder']:
+        if not get_metadata(directory)['InFolder']:
             members = all_folders
         else:
             for folder in all_folders:
