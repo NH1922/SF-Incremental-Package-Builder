@@ -31,6 +31,24 @@ if __name__ == '__main__':
             break
         elif event in 'Submit':
             sc.REMOTE,sc.LOCAL = values[0],values[1]
+            local_folders = next(os.walk(LOCAL))[1]
+
+    remote_folders = next(os.walk(REMOTE))[1]
+
+    # Find newly created folders and add their components to package.xml
+    new_folders = set(local_folders) - set(remote_folders)
+    # print(new_folders)
+    for folder in new_folders:
+        print(folder)
+        create_xml_elements_in_directory(LOCAL,folder,get_metadata(folder)['DirName'])
+
+    # For common folders
+    common_folders = set(local_folders).intersection(set(remote_folders))
+    # print(common_folders)
+    for folder in common_folders:
+        dcmp = compare_directories(os.path.join(REMOTE,folder),os.path.join(LOCAL,folder))
+        create_members(dcmp.right_only,folder)
+        create_members(dcmp.diff_files,folder)
             window['PacakgeOutput'].update('This is green text')
     window.close()
         #dcmp = dircmp(values[0], values[1])
