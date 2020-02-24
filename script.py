@@ -1,10 +1,8 @@
-from filecmp import dircmp
-from MetaParser import parse_meta
-import xml.etree.ElementTree as ET
-import os
 import json
+import os
+import xml.etree.ElementTree as ET
+from filecmp import dircmp
 from xml.dom import minidom
-
 
 # Specify the folders to compare
 REMOTE = r'D:\Projects\SF-Incremental-Package-Builder\remote\unpackaged'
@@ -101,5 +99,4 @@ if __name__ == '__main__':
         dcmp = compare_directories(os.path.join(REMOTE,folder),os.path.join(LOCAL,folder))
         create_members(dcmp.right_only,folder)
         create_members(dcmp.diff_files,folder)
-
     write_xml()
