@@ -101,7 +101,7 @@
   {
     "XMLName": "AuraDefinitionBundle",
     "DirName": "aura",
-    "Suffix": "null",
+    "Suffix": null,
     "HasMetaFile": false,
     "InFolder": false,
     "ChildObjects": null
@@ -109,7 +109,7 @@
   {
     "XMLName": "LightningComponentBundle",
     "DirName": "lwc",
-    "Suffix": "null",
+    "Suffix": null,
     "HasMetaFile": false,
     "InFolder": false,
     "ChildObjects": null
@@ -312,7 +312,7 @@
   {
     "XMLName": "Document",
     "DirName": "documents",
-    "Suffix": "null",
+    "Suffix": null,
     "HasMetaFile": true,
     "InFolder": true,
     "ChildObjects": null

@@ -90,13 +90,13 @@ if __name__ == '__main__':
     # print(new_folders)
     for folder in new_folders:
         print(folder)
-        create_xml_elements_in_directory(LOCAL,folder,get_metadata(folder)['DirName'])
+        create_xml_elements_in_directory(LOCAL,folder,get_metadata(folder)['XMLName'])
 
     # For common folders
     common_folders = set(local_folders).intersection(set(remote_folders))
     # print(common_folders)
     for folder in common_folders:
         dcmp = compare_directories(os.path.join(REMOTE,folder),os.path.join(LOCAL,folder))
-        create_members(dcmp.right_only,folder)
-        create_members(dcmp.diff_files,folder)
+        create_members(dcmp.right_only,get_metadata(folder)['XMLName'])
+        create_members(dcmp.diff_files,get_metadata(folder)['XMLName'])
     write_xml()

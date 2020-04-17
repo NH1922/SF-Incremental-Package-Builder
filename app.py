@@ -31,15 +31,15 @@ if __name__ == '__main__':
             # print(new_folders)
             for folder in new_folders:
                 print(folder)
-                sc.create_xml_elements_in_directory(sc.LOCAL, folder, sc.get_metadata(folder)['DirName'])
+                sc.create_xml_elements_in_directory(sc.LOCAL, folder, sc.get_metadata(folder)['XMLName'])
 
             # For common folders
             common_folders = set(local_folders).intersection(set(remote_folders))
             # print(common_folders)
             for folder in common_folders:
                 dcmp = sc.compare_directories(os.path.join(sc.REMOTE, folder), os.path.join(sc.LOCAL, folder))
-                sc.create_members(dcmp.right_only, folder)
-                sc.create_members(dcmp.diff_files, folder)
+                sc.create_members(dcmp.right_only, sc.get_metadata(folder)['XMLName'])
+                sc.create_members(dcmp.diff_files, sc.get_metadata(folder)['XMLName'])
             dom = parseString(ET.tostring(sc.ROOT, encoding='unicode'))
             window['PacakgeOutput'].update(dom.toprettyxml())
         elif event in 'Clear':
