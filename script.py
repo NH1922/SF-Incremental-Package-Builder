@@ -19,7 +19,7 @@ def get_metadata(name):
 
 
 # Perform XML related initialization
-ET.register_namespace('', "http://soap.sforce.com/2006/04/metadata")
+ET.register_namespace('Package', "http://soap.sforce.com/2006/04/metadata")
 ROOT = ET.Element('Package')
 
 
@@ -65,12 +65,13 @@ def create_xml_elements_in_directory(local,directory,metadata_type):
 
 
 def create_members(members, metadata_type):
-    types = ET.SubElement(ROOT, 'types')
-    for member in members:
-        element = ET.SubElement(types, 'members')
-        element.text = member
-    name = ET.SubElement(types, 'name')
-    name.text = metadata_type
+    if len(members) > 0:
+        types = ET.SubElement(ROOT, 'types')
+        for member in members:
+            element = ET.SubElement(types, 'members')
+            element.text = member.split('.')[0]
+        name = ET.SubElement(types, 'name')
+        name.text = metadata_type
 
 
 def write_xml():
