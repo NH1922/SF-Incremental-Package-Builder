@@ -1,12 +1,12 @@
 import json
 import os
-import xml.etree.ElementTree as ET
+from lxml import etree
 from filecmp import dircmp
 from xml.dom import minidom
 
 # Specify the folders to compare
-REMOTE = r'D:\Projects\SF-Incremental-Package-Builder\remote\unpackaged'
-LOCAL = r'D:\Projects\SF-Incremental-Package-Builder\local\unpackaged'
+REMOTE = 'D:/Salesforce Workspace/Ant Deployment/salesforce_ant_48.0/sample/retrieveUnpackagedUAT'
+LOCAL = 'D:/Salesforce Workspace/Ant Deployment/salesforce_ant_48.0/sample/retrieveUnpackaged'
 METADATA = json.load(open('metadata.json'))
 
 
@@ -19,8 +19,11 @@ def get_metadata(name):
 
 
 # Perform XML related initialization
-ET.register_namespace('Package', "http://soap.sforce.com/2006/04/metadata")
-ROOT = ET.Element('Package')
+# ET.register_namespace('', "http://soap.sforce.com/2006/04/metadata")
+NAMESPACE = "http://soap.sforce.com/2006/04/metadata"
+NSMAP = {None:NAMESPACE}
+ROOT = etree.Element('Package',nsmap=NSMAP)
+
 
 
 def compare_directories(REMOTE, LOCAL):
@@ -66,19 +69,27 @@ def create_xml_elements_in_directory(local,directory,metadata_type):
 
 def create_members(members, metadata_type):
     if len(members) > 0:
-        types = ET.SubElement(ROOT, 'types')
+        types = etree.SubElement(ROOT, 'types')
         for member in members:
-            element = ET.SubElement(types, 'members')
+            element = etree.SubElement(types, 'members')
             element.text = member.split('.')[0]
-        name = ET.SubElement(types, 'name')
+        name = etree.SubElement(types, 'name')
         name.text = metadata_type
 
 
 def write_xml():
-    xmlstr = minidom.parseString(ET.tostring(
-        ROOT, encoding='UTF-8')).toprettyxml(indent="   ")
-    with open("Test.xml", "w") as f:
-        f.write(xmlstr)
+    etree.indent(ROOT,space='\t')
+    et = etree.ElementTree(ROOT)
+    #et.write('Package.xml',xml_declaration=True,encoding='UTF-8',standalone=True)
+    return etree.tostring(ROOT,xml_declaration=True,encoding='UTF-8',standalone=True)
+    #return etree.tostring(ROOT,xml_declaration=True,encoding='unicode',standalone=True)
+    # rint(etree.tostring(ROOT,pretty_print=True,xml_declaration=True,encoding='UTF-8',standalone=True))
+    #tree = ET.ElementTree(ROOT)
+    #tree.write('op.xml',encoding='UTF-8',xml_declaration=True,default_namespace='http://soap.sforce.com/2006/04/metadata',method='xml')
+    #xmlstr = minidom.parseString(ET.tostring(
+    #    ROOT, encoding='UTF-8')).toprettyxml(indent="   ")
+    #with open("Test.xml", "w") as f:
+    #    f.write(xmlstr)
 
 
 if __name__ == '__main__':

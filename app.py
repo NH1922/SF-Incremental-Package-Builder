@@ -21,6 +21,7 @@ if __name__ == '__main__':
         if event in (None, 'Exit'):
             break
         elif event in 'Submit':
+            window['PacakgeOutput'].update('')
             sc.REMOTE, sc.LOCAL = values[0], values[1]
             local_folders = next(os.walk(sc.LOCAL))[1]
 
@@ -40,8 +41,9 @@ if __name__ == '__main__':
                 dcmp = sc.compare_directories(os.path.join(sc.REMOTE, folder), os.path.join(sc.LOCAL, folder))
                 sc.create_members(dcmp.right_only, sc.get_metadata(folder)['XMLName'])
                 sc.create_members(dcmp.diff_files, sc.get_metadata(folder)['XMLName'])
+            output = sc.write_xml()
             dom = parseString(ET.tostring(sc.ROOT, encoding='unicode'))
-            window['PacakgeOutput'].update(dom.toprettyxml())
+            window['PacakgeOutput'].update(output.decode('utf-8'))
         elif event in 'Clear':
             window['PacakgeOutput'].update('')
 
